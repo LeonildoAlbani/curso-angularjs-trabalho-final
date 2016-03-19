@@ -1,0 +1,15 @@
+.jumbotron{
+	background-color: #EEE;
+}
+legend{
+	border-bottom: 1px solid #888;
+	margin-top: 10px;
+}
+.container {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+hr {
+    border-top: 1px solid #888;
+}
