@@ -1,9 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="myApp">
 <head>
 	<title>Trabalho final</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/angular.js"></script>
+	<script type="text/javascript" src="js/myApp.js"></script>
+	<script type="text/javascript" src="js/controller/formCtrl.js"></script>
 </head>
-<body>
+<body ng-controller="FormCtrl">
+	<div class="container" >
+		<div class="jumbotron row">
+
+			<!--BEGIN: Formulário-->
+			<div class="formgroup col-xs-12 col-md-4">
+				<form class="row">
+					<legend ng-bind="'Cadastrar'" ng-hide="!!editando"></legend>
+					<legend ng-bind="'Editar'" ng-show="!!editando"></legend>
+
+					<div class="form-group col-xs-12">
+						<label for="name">Nome</label>
+						<input type="text" class="form-control" id="name" placeholder="Digite o nome" ng-model="pessoa.name">
+					</div>
+					<div class="form-group col-xs-12">
+						<label for="email">E-mail</label>
+						<input type="email" class="form-control" id="email" placeholder="Digite o e-mail" ng-model="pessoa.email">
+					</div>
+					<div class="form-group col-xs-12">
+						<label for="phone">Telefone</label>
+						<input type="number" class="form-control" id="phone" placeholder="Digite o telefone" ng-model="pessoa.phone">
+					</div>
+
+					<!--BEGIN:Incluir-->
+					<div class="form-group col-xs-12" ng-hide="!!editando">
+						<button type="submit" class="btn btn-primary pull-right" ng-click="salvarPessoa(pessoa)">Adicionar</button>
+					</div>
+					<!--END:Incluir-->
+					<!--BEGIN:Editar-->
+					<div class="form-group col-xs-12 " ng-show="!!editando">
+						<button type="submit" class="btn btn-danger pull-right" ng-click="limparCampos()">Cancelar</button>
+						<button type="submit" class="btn btn-primary pull-right" ng-click="salvarPessoa(pessoa)">Salvar</button>
+					</div>
+					<!--END:Editar-->
+				</form>
+			</div>
+			<!--END: Formulário-->
+			<!--BEGIN: Tabela-->
+			<div class="formgroup col-xs-12 col-md-8">
+				<table class="table table-hover" ng-show="!!pessoas">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>E-mail</th>
+							<th>Telefone</th>
+							<th>Opções</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="pessoa in pessoas | filter:search">
+							<td ng-bind="pessoa.name"></td>
+							<td ng-bind="pessoa.email"></td>
+							<td ng-bind="pessoa.phone"></td>
+							<td>
+								<button class="btn btn-success" ng-click="preEditarPessoa($index)">
+									<i class="glyphicon glyphicon-pencil"></i>
+								</button>
+								<button class="btn btn-danger" ng-click="deletarPessoa($index)">
+									<i class="glyphicon glyphicon-trash"></i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!--END: Tabela-->
+		</div>
+	</div>
 
 </body>
 </html>

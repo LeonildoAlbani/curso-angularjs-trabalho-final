@@ -1,65 +1,62 @@
 app.controller("FormCtrl", FormCtrl);
 
 function FormCtrl($scope) {
-	$scope.indexTarefa = undefined;
-	$scope.clicouEditar = false;
+	$scope.pessoa = new Object();
 
-	$scope.tarefas=[{
-		check: false,
-		tarefa: "leite",
-		datacriacao: new Date().getTime()
-	},{
-		check: false,
-		tarefa: "bem louco",
-		datacriacao: new Date().getTime()
-	},{
-		check: false,
-		tarefa: "chip do pedro",
-		datacriacao: new Date().getTime()
+	$scope.pessoas=[{
+		name: "Leonildo G. Albani",
+		email: "leonildo.albani@gmail.com",
+		phone: 99888899
+	},
+	{
+		name: "Pedro do chip",
+		email: "cade@meuchip.com",
+		phone: 11122212
+	},
+	{
+		name: "Bem louco",
+		email: "vacagrande@leite.com.pr",
+		phone: 88775442
 	}];
 
-	$scope.cadastrarTarefa = function ( data ) {
-		if (!!data){
-			var item = {
-				check: false,
-				tarefa: data,
-				datacriacao: new Date().getTime()
-			}
-			$scope.tarefas.push(item);
-			$scope.tarefa = undefined;
-		}
-	};
+	$scope.preEditarPessoa = function (indexPessoa) {
+		$scope.indexPessoa = indexPessoa;
+		$scope.pessoa = new pessoa($scope.pessoas[indexPessoa]);
 
-	$scope.alterarTarefa = function( dataIndex ){
-		$scope.renomear = $scope.tarefas[dataIndex].tarefa;
-		$scope.indexTarefa = dataIndex;
-		$scope.clicouEditar = true;
+		$scope.editando = true;
 	}
 
-	$scope.renomearTarefa = function( data ){
-		console.log($scope.indexTarefa);
-		if (!!$scope.indexTarefa) {
-			$scope.tarefas[$scope.indexTarefa] = {
-				check: false,
-				tarefa: data,
-				datacriacao: new Date().getTime()//$scope.tarefas[$scope.indexTarefa].datacriacao
+	$scope.salvarPessoa = function(pessoa){
+		//evitar replicar código
+		if(!!$scope.pessoa.name){
+			if(!!$scope.editando){
+				$scope.pessoas[$scope.indexPessoa] = pessoa;
+			}else{
+				$scope.pessoas.push(pessoa);
 			}
-			$scope.indexTarefa = undefined;
-			$scope.renomear = undefined;
-			$scope.clicouEditar = false;
+			$scope.limparCampos()
+		}else{
+			alert("Informe ao menos o nome da pessoa que você deseja cadastrar.");
 		}
 	}
 
-	$scope.cancelarRenomeacao = function( ){
-		$scope.indexTarefa = undefined;
-		$scope.renomear = undefined;
-		$scope.clicouEditar = false;
+	$scope.limparCampos = function () {
+		$scope.pessoa = new Object();
+		$scope.editando = false;
+		$scope.indexPessoa = undefined;
 	}
 
-	$scope.removerTarefa = function( dataIndex ){
-		console.log(dataIndex);
-		$scope.tarefas.splice(dataIndex, 1);
-		$scope.cancelarRenomeacao();
+	$scope.deletarPessoa = function (indexPessoa){
+		$scope.pessoas.splice(indexPessoa, 1);
+		//caso edite e não salve ou cancele e delete a mesma linha, tem um bug.
+		$scope.limparCampos();
 	}
 }
 
+function pessoa (object) {
+	//construtor pra facilitar a vida...
+	//deveria ser um arquivo de classe separado, but, tá bonito aqui :D
+	this.name = object.name;
+	this.email = object.email;
+	this.phone = object.phone;
+}
