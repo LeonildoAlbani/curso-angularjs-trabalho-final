@@ -63,11 +63,11 @@
 							<td ng-bind="pessoa.email"></td>
 							<td ng-bind="pessoa.phone"></td>
 							<td>
-								<button class="btn btn-success" ng-click="preEditarPessoa($index)">
-									<i class="glyphicon glyphicon-pencil"></i>
-								</button>
-								<button class="btn btn-danger" ng-click="deletarPessoa($index)">
+								<button class="btn btn-danger pull-right" ng-click="deletarPessoa($index)">
 									<i class="glyphicon glyphicon-trash"></i>
+								</button>
+								<button class="btn btn-success pull-right" ng-click="preEditarPessoa($index)">
+									<i class="glyphicon glyphicon-pencil"></i>
 								</button>
 							</td>
 						</tr>
